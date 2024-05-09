@@ -17,6 +17,6 @@ RUN mkdir "${APP_DIR}/bin" && \
     rm -rf "${APP_DIR}/bin/Prowlarr.Update" && \
     echo -e "PackageVersion=${PACKAGE_VERSION}\nPackageAuthor=[hotio](https://github.com/hotio)\nUpdateMethod=Docker\nBranch=${SBRANCH}" > "${APP_DIR}/package_info" && \
     chmod -R u=rwX,go=rX "${APP_DIR}" && \
-    chmod +x "${APP_DIR}/bin/Prowlarr" "${APP_DIR}/bin/ffprobe"
+    chmod +x "${APP_DIR}/bin/Prowlarr"
 
 COPY root/ /
