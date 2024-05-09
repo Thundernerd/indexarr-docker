@@ -2,9 +2,9 @@ ARG UPSTREAM_IMAGE
 ARG UPSTREAM_DIGEST_ARM64
 
 FROM ${UPSTREAM_IMAGE}@${UPSTREAM_DIGEST_ARM64}
-EXPOSE 8989
+EXPOSE 9696
 ARG IMAGE_STATS
-ENV IMAGE_STATS=${IMAGE_STATS} WEBUI_PORTS="8989/tcp,8989/udp"
+ENV IMAGE_STATS=${IMAGE_STATS} WEBUI_PORTS="9696/tcp,9696/udp"
 
 RUN apk add --no-cache libintl sqlite-libs icu-libs
 
@@ -17,6 +17,6 @@ RUN mkdir "${APP_DIR}/bin" && \
     rm -rf "${APP_DIR}/bin/Prowlarr.Update" && \
     echo -e "PackageVersion=${PACKAGE_VERSION}\nPackageAuthor=[hotio](https://github.com/hotio)\nUpdateMethod=Docker\nBranch=${SBRANCH}" > "${APP_DIR}/package_info" && \
     chmod -R u=rwX,go=rX "${APP_DIR}" && \
-    chmod +x "${APP_DIR}/bin/Prowlarr" "${APP_DIR}/bin/ffprobe"
+    chmod +x "${APP_DIR}/bin/Prowlarr"
 
 COPY root/ /
