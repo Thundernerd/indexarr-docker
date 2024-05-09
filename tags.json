@@ -12,15 +12,15 @@
     ]
   },
   "release": {
-    "description": "mangarr/v0.1",
+    "description": "sourcerarr/v0.1",
     "hide": false,
-    "last_updated": "2024-05-01T11:17:54.000Z",
-    "last_updated_url": "https://github.com/donderjoekel/sonarr-docker/actions/runs/8908649282",
+    "last_updated": "2024-05-09T14:53:51.000Z",
+    "last_updated_url": "https://github.com/donderjoekel/prowlarr-docker/actions/runs/9019107108",
     "latest": true,
     "tags": [
       "release",
-      "release-0.1.0.807",
-      "release-7543f41"
+      "release-0.1.0.872",
+      "release-3c41a39"
     ]
   }
 }
