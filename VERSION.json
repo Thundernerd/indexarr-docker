@@ -1,9 +1,9 @@
 {
-  "amd64_url": "https://github.com/tnrd-org/Sonarr/releases/download/v0.1.0.807/Sonarr.mangarr.0.1.0.807.linux-musl-x64.tar.gz",
-  "arm64_url": "https://github.com/tnrd-org/Sonarr/releases/download/v0.1.0.807/Sonarr.mangarr.0.1.0.807.linux-musl-arm64.tar.gz",
-  "description": "mangarr/v0.1",
+  "amd64_url": "https://github.com/donderjoekel/Prowlarr/releases/download/v0.1.0.872/Prowlarr.sourcerarr.0.1.0.872.linux-musl-x64.tar.gz",
+  "arm64_url": "https://github.com/donderjoekel/Prowlarr/releases/download/v0.1.0.872/Prowlarr.sourcerarr.0.1.0.872.linux-musl-arm64.tar.gz",
+  "description": "sourcerarr/v0.1",
   "latest": true,
-  "sbranch": "mangarr",
+  "sbranch": "sourcerarr",
   "test_amd64": true,
   "test_arm64": true,
   "test_url": "http://localhost:8989/system/status",
@@ -11,5 +11,5 @@
   "upstream_digest_arm64": "sha256:8b1217064599410503a0de18b1e14bd86cfc7faba3e88746974700616c186ad0",
   "upstream_image": "ghcr.io/hotio/base",
   "upstream_tag": "alpinevpn",
-  "version": "0.1.0.807"
+  "version": "0.1.0.872"
 }
