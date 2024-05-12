@@ -1,6 +1,6 @@
 {
-  "amd64_url": "https://github.com/donderjoekel/Prowlarr/releases/download/v0.1.0.902/Prowlarr.sourcerarr.0.1.0.902.linux-musl-x64.tar.gz",
-  "arm64_url": "https://github.com/donderjoekel/Prowlarr/releases/download/v0.1.0.902/Prowlarr.sourcerarr.0.1.0.902.linux-musl-arm64.tar.gz",
+  "amd64_url": "https://github.com/donderjoekel/Prowlarr/releases/download/v0.1.0.902/Prowlarr.develop.0.1.0.902.linux-musl-x64.tar.gz",
+  "arm64_url": "https://github.com/donderjoekel/Prowlarr/releases/download/v0.1.0.902/Prowlarr.develop.0.1.0.902.linux-musl-arm64.tar.gz",
   "description": "sourcerarr/v0.1",
   "latest": true,
   "sbranch": "develop",
