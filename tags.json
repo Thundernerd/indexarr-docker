@@ -14,13 +14,13 @@
   "release": {
     "description": "sourcerarr/v0.1",
     "hide": false,
-    "last_updated": "2024-05-09T19:33:27.000Z",
-    "last_updated_url": "https://github.com/donderjoekel/prowlarr-docker/actions/runs/9022510897",
+    "last_updated": "2024-05-12T17:29:29.000Z",
+    "last_updated_url": "https://github.com/donderjoekel/prowlarr-docker/actions/runs/9053083229",
     "latest": true,
     "tags": [
       "release",
-      "release-0.1.0.875",
-      "release-7216f71"
+      "release-0.1.0.902",
+      "release-b2df2ca"
     ]
   }
 }
