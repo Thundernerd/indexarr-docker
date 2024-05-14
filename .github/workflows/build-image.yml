@@ -1,19 +1,19 @@
-name: update-nightly
+name: build image
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * *"
 
 jobs:
-  get-releases:
+  update-version:
     runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.status.outputs.value }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run Bash Script to Get Pre-Releases
-        id: get_pre_releases
+      - name: Run Bash Script to Get Releases
+        id: get_releases
         run: |
           TOKEN=${{ secrets.GITHUB_TOKEN }}
           response=$(curl -L \
@@ -23,19 +23,19 @@ jobs:
             https://api.github.com/repos/donderjoekel/Prowlarr/releases)
           
           # Extract the first pre-release from the JSON response
-          pre_release=$(echo $response | jq -r '[.[] | select(.prerelease == true)][0]')
-          pre_release_tag=$(echo $pre_release | jq -r '.tag_name')
-          pre_release_name=$(echo $pre_release | jq -r '.name')
-          pre_release_url=$(echo $pre_release | jq -r '.html_url')
+          release=$(echo $response | jq -r '[.[] | select(.prerelease == false)][0]')
+          release_tag=$(echo $release | jq -r '.tag_name')
+          release_name=$(echo $release | jq -r '.name')
+          release_url=$(echo $release | jq -r '.html_url')
 
-          echo "pre_release_tag=$pre_release_tag" >> $GITHUB_ENV
-          echo "pre_release_name=$pre_release_name" >> $GITHUB_ENV
-          echo "pre_release_url=$pre_release_url" >> $GITHUB_ENV
+          echo "release_tag=$release_tag" >> $GITHUB_ENV
+          echo "release_name=$release_name" >> $GITHUB_ENV
+          echo "release_url=$release_url" >> $GITHUB_ENV
 
           # Iterate over assets and extract browser_download_url
-          for url in $(echo $pre_release | jq -r '.assets[].browser_download_url'); do
+          for url in $(echo $release | jq -r '.assets[].browser_download_url'); do
             # Use regex to extract the desired part of the URL
-            if [[ "$url" =~ Prowlarr\.develop\.[0-9.]+\.([a-zA-Z0-9_-]+)\. ]]; then
+            if [[ "$url" =~ Prowlarr\.main\.[0-9.]+\.([a-zA-Z0-9_-]+)\. ]]; then
                 key=$(echo "${BASH_REMATCH[1]}")
                 key=$(echo $key | tr '-' '_')
                 echo "${key}_download_url=$url" >> $GITHUB_ENV
@@ -48,7 +48,7 @@ jobs:
         run: |
             linux_musl_x64_url="${{ env.linux_musl_x64_download_url }}"
             linux_musl_arm64_url="${{ env.linux_musl_arm64_download_url }}"
-            version="${{ env.pre_release_name }}"
+            version="${{ env.release_name }}"
   
             # Load the VERSION.json file
             version_json=$(cat VERSION.json)
@@ -64,11 +64,23 @@ jobs:
             echo "$updated_version_json" > VERSION.json
   
       - name: Commit and Push Changes
+        id: status
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add VERSION.json
-          git commit -m "Update VERSION.json"
-          git push origin HEAD:${{ github.ref }}
+          if git commit -m "Update VERSION.json"; then
+            git push origin HEAD:${{ github.ref }}
+            echo "value=true" >> $GITHUB_OUTPUT
+          else
+            echo "No changes to commit"
+            echo "value=false" >> $GITHUB_OUTPUT
+          fi
+
+  call:
+    needs: [update-version]
+    if: needs.update-version.outputs.status == 'true'
+    uses: donderjoekel/build-workflow/.github/workflows/build-on-call.yml@master
+    secrets: inherit
