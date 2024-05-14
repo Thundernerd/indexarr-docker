@@ -6,8 +6,10 @@ on:
     - cron: "0 0 * * *"
 
 jobs:
-  get-releases:
+  update-version:
     runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.status.outputs.value }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -64,6 +66,7 @@ jobs:
             echo "$updated_version_json" > VERSION.json
   
       - name: Commit and Push Changes
+        id: status
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -72,14 +75,15 @@ jobs:
           git add VERSION.json
           if git commit -m "Update VERSION.json"; then
             git push origin HEAD:${{ github.ref }}
+            echo "value=true" >> $GITHUB_OUTPUT
           else
             echo "No changes to commit"
-            echo "::set-output name=status::neutral"
-            exit 78
+            echo "value=false" >> $GITHUB_OUTPUT
           fi
 
 
   call:
-    needs: [get-releases]
+    needs: [update-version]
+    if: needs.update-version.outputs.status == 'true'
     uses: donderjoekel/build-workflow/.github/workflows/build-on-call.yml@master
     secrets: inherit
