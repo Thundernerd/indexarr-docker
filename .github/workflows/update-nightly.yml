@@ -72,3 +72,7 @@ jobs:
           git add VERSION.json
           git commit -m "Update VERSION.json"
           git push origin HEAD:${{ github.ref }}
+
+  call:
+    uses: donderjoekel/build-workflow/.github/workflows/build-on-call.yml@master
+    secrets: inherit
