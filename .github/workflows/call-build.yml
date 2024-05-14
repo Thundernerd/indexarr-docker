@@ -8,5 +8,5 @@ on:
 
 jobs:
   call:
-    uses: hotio/build-workflow/.github/workflows/build-on-call.yml@master
+    uses: donderjoekel/build-workflow/.github/workflows/build-on-call.yml@master
     secrets: inherit
