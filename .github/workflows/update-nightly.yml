@@ -70,9 +70,16 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add VERSION.json
-          git commit -m "Update VERSION.json"
-          git push origin HEAD:${{ github.ref }}
+          if git commit -m "Update VERSION.json"; then
+            git push origin HEAD:${{ github.ref }}
+          else
+            echo "No changes to commit"
+            echo "::set-output name=status::neutral"
+            exit 78
+          fi
+
 
   call:
+    needs: [get-releases]
     uses: donderjoekel/build-workflow/.github/workflows/build-on-call.yml@master
     secrets: inherit
