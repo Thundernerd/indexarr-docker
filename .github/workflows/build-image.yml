@@ -1,4 +1,4 @@
-name: update-nightly
+name: build image
 
 on:
   workflow_dispatch:
@@ -14,8 +14,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Run Bash Script to Get Pre-Releases
-        id: get_pre_releases
+      - name: Run Bash Script to Get Releases
+        id: get_releases
         run: |
           TOKEN=${{ secrets.GITHUB_TOKEN }}
           response=$(curl -L \
@@ -25,17 +25,17 @@ jobs:
             https://api.github.com/repos/donderjoekel/Prowlarr/releases)
           
           # Extract the first pre-release from the JSON response
-          pre_release=$(echo $response | jq -r '[.[] | select(.prerelease == true)][0]')
-          pre_release_tag=$(echo $pre_release | jq -r '.tag_name')
-          pre_release_name=$(echo $pre_release | jq -r '.name')
-          pre_release_url=$(echo $pre_release | jq -r '.html_url')
+          release=$(echo $response | jq -r '[.[] | select(.prerelease == true)][0]')
+          release_tag=$(echo $release | jq -r '.tag_name')
+          release_name=$(echo $release | jq -r '.name')
+          release_url=$(echo $release | jq -r '.html_url')
 
-          echo "pre_release_tag=$pre_release_tag" >> $GITHUB_ENV
-          echo "pre_release_name=$pre_release_name" >> $GITHUB_ENV
-          echo "pre_release_url=$pre_release_url" >> $GITHUB_ENV
+          echo "release_tag=$release_tag" >> $GITHUB_ENV
+          echo "release_name=$release_name" >> $GITHUB_ENV
+          echo "release_url=$release_url" >> $GITHUB_ENV
 
           # Iterate over assets and extract browser_download_url
-          for url in $(echo $pre_release | jq -r '.assets[].browser_download_url'); do
+          for url in $(echo $release | jq -r '.assets[].browser_download_url'); do
             # Use regex to extract the desired part of the URL
             if [[ "$url" =~ Prowlarr\.develop\.[0-9.]+\.([a-zA-Z0-9_-]+)\. ]]; then
                 key=$(echo "${BASH_REMATCH[1]}")
@@ -50,7 +50,7 @@ jobs:
         run: |
             linux_musl_x64_url="${{ env.linux_musl_x64_download_url }}"
             linux_musl_arm64_url="${{ env.linux_musl_arm64_download_url }}"
-            version="${{ env.pre_release_name }}"
+            version="${{ env.release_name }}"
   
             # Load the VERSION.json file
             version_json=$(cat VERSION.json)
@@ -80,7 +80,6 @@ jobs:
             echo "No changes to commit"
             echo "value=false" >> $GITHUB_OUTPUT
           fi
-
 
   call:
     needs: [update-version]
