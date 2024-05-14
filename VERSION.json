@@ -1,6 +1,6 @@
 {
-  "amd64_url": "https://github.com/donderjoekel/Prowlarr/releases/download/v0.1.0.902/Prowlarr.develop.0.1.0.902.linux-musl-x64.tar.gz",
-  "arm64_url": "https://github.com/donderjoekel/Prowlarr/releases/download/v0.1.0.902/Prowlarr.develop.0.1.0.902.linux-musl-arm64.tar.gz",
+  "amd64_url": "",
+  "arm64_url": "",
   "description": "sourcerarr/v0.1",
   "latest": true,
   "sbranch": "develop",
@@ -11,5 +11,5 @@
   "upstream_digest_arm64": "sha256:8b1217064599410503a0de18b1e14bd86cfc7faba3e88746974700616c186ad0",
   "upstream_image": "ghcr.io/hotio/base",
   "upstream_tag": "alpinevpn",
-  "version": "0.1.0.902"
+  "version": "0.1.0.889"
 }
