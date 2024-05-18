@@ -48,7 +48,7 @@ jobs:
 
       - name: Update VERSION.json
         run: |
-            linux_x64_url="${{ env.linux_musl_x64_download_url }}"
+            linux_x64_url="${{ env.linux_x64_download_url }}"
             version="${{ env.release_name }}"
   
             # Load the VERSION.json file
