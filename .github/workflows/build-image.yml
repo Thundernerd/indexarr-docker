@@ -82,5 +82,5 @@ jobs:
   call:
     needs: [update-version]
     if: needs.update-version.outputs.status == 'true'
-    uses: donderjoekel/build-workflow/.github/workflows/build-on-call.yml@master
+    uses: donderjoekel/build-workflow/.github/workflows/build-on-call-amd64.yml@master
     secrets: inherit
