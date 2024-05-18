@@ -48,7 +48,8 @@ jobs:
 
       - name: Update VERSION.json
         run: |
-            linux_x64_url="${{ env.linux_x64_download_url }}"
+            linux_musl_x64_url="${{ env.linux_musl_x64_download_url }}"
+            linux_musl_arm64_url="${{ env.linux_musl_arm64_download_url }}"
             version="${{ env.release_name }}"
   
             # Load the VERSION.json file
@@ -56,9 +57,10 @@ jobs:
   
             # Update the properties in VERSION.json
             updated_version_json=$(echo "$version_json" | jq \
-              --arg linux_x64_url "$linux_x64_url" \
+              --arg linux_musl_x64_url "$linux_musl_x64_url" \
+              --arg linux_musl_arm64_url "$linux_musl_arm64_url" \
               --arg version "$version" \
-              '.amd64_url = $linux_x64_url | .version = $version')
+              '.amd64_url = $linux_musl_x64_url | .arm64_url = $linux_musl_arm64_url | .version = $version')
   
             # Save the updated JSON back to VERSION.json
             echo "$updated_version_json" > VERSION.json
@@ -82,5 +84,5 @@ jobs:
   call:
     needs: [update-version]
     if: needs.update-version.outputs.status == 'true'
-    uses: donderjoekel/build-workflow/.github/workflows/build-on-call-amd64.yml@master
+    uses: donderjoekel/build-workflow/.github/workflows/build-on-call.yml@master
     secrets: inherit
