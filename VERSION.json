@@ -1,5 +1,5 @@
 {
-  "amd64_url": "",
+  "amd64_url": "https://github.com/donderjoekel/Indexarr/releases/download/v0.1.0.816/Indexarr.develop.0.1.0.816.linux-x64.tar.gz",
   "description": "develop/v4-nightly",
   "sbranch": "develop",
   "test_amd64": true,
