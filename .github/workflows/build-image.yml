@@ -22,7 +22,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/donderjoekel/Prowlarr/releases)
+            https://api.github.com/repos/donderjoekel/Indexarr/releases)
           
           # Extract the first pre-release from the JSON response
           release=$(echo $response | jq -r '[.[] | select(.prerelease == true)][0]')
@@ -37,7 +37,7 @@ jobs:
           # Iterate over assets and extract browser_download_url
           for url in $(echo $release | jq -r '.assets[].browser_download_url'); do
             # Use regex to extract the desired part of the URL
-            if [[ "$url" =~ Prowlarr\.develop\.[0-9.]+\.([a-zA-Z0-9_-]+)\. ]]; then
+            if [[ "$url" =~ Indexarr\.develop\.[0-9.]+\.([a-zA-Z0-9_-]+)\. ]]; then
                 key=$(echo "${BASH_REMATCH[1]}")
                 key=$(echo $key | tr '-' '_')
                 echo "${key}_download_url=$url" >> $GITHUB_ENV
@@ -48,8 +48,7 @@ jobs:
 
       - name: Update VERSION.json
         run: |
-            linux_musl_x64_url="${{ env.linux_musl_x64_download_url }}"
-            linux_musl_arm64_url="${{ env.linux_musl_arm64_download_url }}"
+            linux_x64_url="${{ env.linux_musl_x64_download_url }}"
             version="${{ env.release_name }}"
   
             # Load the VERSION.json file
@@ -57,10 +56,9 @@ jobs:
   
             # Update the properties in VERSION.json
             updated_version_json=$(echo "$version_json" | jq \
-              --arg linux_musl_x64_url "$linux_musl_x64_url" \
-              --arg linux_musl_arm64_url "$linux_musl_arm64_url" \
+              --arg linux_x64_url "$linux_x64_url" \
               --arg version "$version" \
-              '.amd64_url = $linux_musl_x64_url | .arm64_url = $linux_musl_arm64_url | .version = $version')
+              '.amd64_url = $linux_x64_url | .version = $version')
   
             # Save the updated JSON back to VERSION.json
             echo "$updated_version_json" > VERSION.json
