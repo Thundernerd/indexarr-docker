@@ -2,9 +2,14 @@ name: build image
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - nightly
+      - release
+    paths:
+      - 'VERSION.json'
 
 jobs:
   call:
-    if: needs.update-version.outputs.status == 'true'
     uses: donderjoekel/build-workflow/.github/workflows/build-on-call.yml@master
     secrets: inherit
