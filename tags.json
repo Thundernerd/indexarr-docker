@@ -2,13 +2,13 @@
   "nightly": {
     "description": "develop/v4-nightly",
     "hide": false,
-    "last_updated": "2024-06-02T15:29:47.000Z",
-    "last_updated_url": "https://github.com/donderjoekel/indexarr-docker/actions/runs/9339364539",
+    "last_updated": "2024-06-02T17:12:14.000Z",
+    "last_updated_url": "https://github.com/donderjoekel/indexarr-docker/actions/runs/9339917870",
     "latest": false,
     "tags": [
       "nightly",
-      "nightly-0.1.0.904",
-      "nightly-0f7f5f0"
+      "nightly-0.1.0.906",
+      "nightly-1f8d766"
     ]
   },
   "release": {
